@@ -159,8 +159,8 @@
 </div>
 
 <script>
-    let keycloakUrl = "http://localhost:8080/auth"
-    let keycloakJsSrc = keycloakUrl + "/js/keycloak.js";
+    let keycloakUrl = "http://localhost:8080/"
+    let keycloakJsSrc = keycloakUrl + "js/keycloak.js";
 
     var script = document.createElement('script');
     script.type = 'text/javascript';
@@ -171,8 +171,8 @@
 
         window.keycloak = new Keycloak({
             url: keycloakUrl,
-            realm: 'keycloak-tutorial',
-            clientId: 'app-frontend-js',
+            realm: 'unum-test',
+            clientId: 'app-js-unum-test',
             scope: 'openid email phone'
         });
 
@@ -187,14 +187,13 @@
 
 
         keycloak.init({
-            onLoad: 'login-required',
-            // onLoad: 'check-sso',
+            onLoad: 'login-required', // Supported values: 'check-sso' , 'login-required'
             checkLoginIframe: true,
             checkLoginIframeInterval: 1,
             pkceMethod: 'S256'
-        }).success(function () {
+        }).then((auth) => {
 
-            if (keycloak.authenticated) {
+            if (auth) {
                 showMenu();
                 showProfile();
             } else {
